@@ -3,7 +3,7 @@
  * @Date: 2021-02-23 11:50:45
  * @Description: file content
  * @LastEditors: liujian
- * @LastEditTime: 2021-02-26 16:31:50
+ * @LastEditTime: 2021-03-01 18:07:19
 -->
 # interview-ex
 前端知识记录
@@ -55,7 +55,8 @@ server {
  
  4. postMessage
  postMessage(data,origin) 方法接受两个参数.
- 示例：postMessage, 运行： 分别通过`npm run start`运行admin1 和admin2项目，
+ 
+ 示例文件位置：`postMessage` 运行： 分别通过`npm run start`运行admin1 和admin2项目，
  > *admin1* 中：iframe.contentWindow.postMessage()发送数据，并且通过window.addEventListener('message', function (e) {}) 接收数据
  *admin2* 中：通过window.addEventListener('message', function (e) {}) 接收数据，然后通过window.parent.postMessage() 将数据返回给admin1中
  
@@ -81,6 +82,17 @@ Object.prototype.toString.call([])   // "[object Array]"
 Object.prototype.toString.call(null) // "[object Null]"
 Object.prototype.toString.call(1)    // "[object Number]"
 ```
+
+#### 5. 事件冒泡
+事件委托就是利用冒泡的原理，把事件加到父元素上，触发执行效果。
+```js
+addEventListener(type,listener,useCapture) , 其中useCapture默认false 冒泡
+```
+示例文件位置：`addEventListener.html`  
+优点:
+- 提高性能：只需添加一个事件代理所有事件，代码量少，所占用的内存空间更少。
+- 动态监听：自动绑定动态添加的元素
+
 
 
     
