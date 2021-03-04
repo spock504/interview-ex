@@ -3,10 +3,12 @@
  * @Date: 2021-02-23 11:50:45
  * @Description: file content
  * @LastEditors: liujian
- * @LastEditTime: 2021-03-01 18:07:19
+ * @LastEditTime: 2021-03-04 17:50:38
 -->
-# interview-ex
-前端知识记录
+目录:
+[toc]
+
+## 1. js部分
 #### 1. 实现图片懒加载
 判断图片所在位置是否在可视区内，图片移到可视区内进行加载
  1. offsetTop < clientHeight + scrollTop
@@ -18,6 +20,7 @@
 
 同源是指"协议+域名+端口"三者相同 
  1.  通过jsonp跨域 (只能实现get一种请求。)
+ 原理： 用户传递一个callback给服务端，然后服务端返回数据时会将这个callback 函数名给前端执行。
 > 通常为了减轻web服务器的负载，我们把js、css，img等静态资源分离到另一台独立域名的服务器上，在html页面中再通过相应的标签从不同域名下加载静态资源  
 
 jquery 实现： 
@@ -92,6 +95,28 @@ addEventListener(type,listener,useCapture) , 其中useCapture默认false 冒泡
 优点:
 - 提高性能：只需添加一个事件代理所有事件，代码量少，所占用的内存空间更少。
 - 动态监听：自动绑定动态添加的元素
+
+#### 6. js 改变url，并且页面不刷新  
+1. 使用 location.hash 属性来修改锚部分：`window.addEventListener("hashchange", myFunction);`
+2. 使用 history.pushState()方法：`history.pushState(state, title, url);`
+运行：`npm run starturl `，查看操作效果。 
+参考链接：[张鑫旭 history pushState/replaceState实例](https://www.zhangxinxu.com/wordpress/2013/06/html5-history-api-pushstate-replacestate-ajax/)
+
+#### 7. js中自定义事件的使用与触发
+```js
+var event = new Event('build');
+
+// Listen for the event.
+elem.addEventListener('build', function (e) { ... }, false);
+
+// Dispatch the event.
+elem.dispatchEvent(event);
+```
+#### 8.实现简单的EventEmiter，包含事件绑定，事件触发以及移除
+示例文件位置：`eventEmiter.js`
+
+
+## 2. css部分
 
 
 

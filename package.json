@@ -1,0 +1,21 @@
+{
+  "name": "interview-ex",
+  "version": "1.0.0",
+  "description": "<!--  * @Author: liujian  * @Date: 2021-02-23 11:50:45  * @Description: file content  * @LastEditors: liujian  * @LastEditTime: 2021-03-02 15:04:01 --> # interview-ex 前端知识记录 #### 1. 实现图片懒加载 判断图片所在位置是否在可视区内，图片移到可视区内进行加载  1. offsetTop < clientHeight + scrollTop  2. IntersectionObserver        使用IntersectionObserver实现图片 懒加载, 示例文件位置：`lazyImgs.html`           [谈谈IntersectionObserver懒加载](https://www.jianshu.com/p/84a86e41eb2b) #### 2. 跨域 [前端常见跨域解决方案（全）](https://segmentfault.com/a/1190000011145364)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "starturl":"http-server -o ./url.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spock504/interview-ex.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spock504/interview-ex/issues"
+  },
+  "homepage": "https://github.com/spock504/interview-ex#readme"
+}
