@@ -3,7 +3,7 @@
  * @Date: 2021-02-23 11:50:45
  * @Description: file content
  * @LastEditors: liujian
- * @LastEditTime: 2021-03-04 17:50:38
+ * @LastEditTime: 2021-03-11 18:17:44
 -->
 目录:
 [toc]
@@ -107,16 +107,27 @@ addEventListener(type,listener,useCapture) , 其中useCapture默认false 冒泡
 var event = new Event('build');
 
 // Listen for the event.
-elem.addEventListener('build', function (e) { ... }, false);
+window.addEventListener('build', function (e) { 
+    console.log("build event")
+ }, false);
 
 // Dispatch the event.
-elem.dispatchEvent(event);
+window.dispatchEvent(event);
 ```
 #### 8.实现简单的EventEmiter，包含事件绑定，事件触发以及移除
 示例文件位置：`eventEmiter.js`
 
+#### 9. 使用 requestAnimationFrame
+`requestAnimationFrame`：基于帧数执行， 每秒60次
+在下次重绘时执行函数（当页面隐藏，也就是你在屏幕上看不到时，会自动暂停绘制） 
+`cancelAnimationFrame()`：取消回调函数  
+
 
 ## 2. css部分
+
+#### 1. rem 实现自适应布局
+rem单位只相对于浏览器的根元素（HTML元素）的font-size，只需要根据视图容器的大小，动态的改变font-size即可。
+ `10px  = 1rem 在根元素（font-size = 10px的时候)`
 
 
 
