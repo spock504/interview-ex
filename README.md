@@ -3,7 +3,7 @@
  * @Date: 2021-02-23 11:50:45
  * @Description: file content
  * @LastEditors: liujian
- * @LastEditTime: 2021-03-11 18:17:44
+ * @LastEditTime: 2021-03-12 15:07:27
 -->
 目录:
 [toc]
@@ -127,7 +127,19 @@ window.dispatchEvent(event);
 
 #### 1. rem 实现自适应布局
 rem单位只相对于浏览器的根元素（HTML元素）的font-size，只需要根据视图容器的大小，动态的改变font-size即可。
- `10px  = 1rem 在根元素（font-size = 10px的时候)`
+  一般的，各大主流浏览器的font-size默认值为16px,设置了62.5%以后就有 1rem=10px
+  ```css
+  html,body{
+     font-size: 62.5%;  
+  }
+  ```
+
+#### 2. 移动端 1px
+ `::after` + `transform`: 通过缩放边框实现1px
+ 设备像素比（DPR） = 设备像素（物理像素） / 设备独立像素（逻辑像素）
+
+
+ 
 
 
 

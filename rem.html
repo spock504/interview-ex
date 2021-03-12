@@ -3,7 +3,7 @@
  * @Date: 2021-03-11 17:45:03
  * @Description: file content
  * @LastEditors: liujian
- * @LastEditTime: 2021-03-11 17:45:29
+ * @LastEditTime: 2021-03-12 15:03:59
 -->
 
 <!--
@@ -19,21 +19,9 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 这个meta标签使得页面宽度等于设备宽度，页面的缩放默认为1，且用户不能缩放 -->
+    <meta name="viewport" content="width=device-width,inital-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
     <title>Document</title>
-    <style>
-        .name {
-            width: 3rem;
-            height: 2rem;
-            background-color: beige;
-        }
-
-        .realname {
-            width: 300px;
-            height: 200px;
-            background-color: beige;
-        }
-    </style>
     <script>
         //designWidth:设计稿的实际宽度值，需要根据实际设置
         //maxWidth:制作稿的最大宽度值，需要根据实际设置
@@ -86,6 +74,58 @@
             }
         })(750, 750);
     </script>
+    <style>
+        body {
+            background-color: lightblue;
+        }
+
+        @media screen and (min-width: 600px) {
+            body {
+                background-color: lightgreen;
+            }
+        }
+
+        @media screen and (min-width: 1200px) {
+            body {
+                background-color: lavender;
+            }
+        }
+
+        /*  rem */
+
+        .name {
+            width: 3rem;
+            height: 2rem;
+            background-color: beige;
+        }
+
+        .realname {
+            width: 300px;
+            height: 200px;
+            background-color: beige;
+        }
+
+        /* 1px  */
+        .borderPx {
+            position: relative;
+        }
+
+        .borderPx::after {
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-top: 1px solid rgb(211, 74, 74);
+            content: "";
+            transform: scaleY(0.5);
+            transform-origin: left top;
+        }
+
+        .borderRx {
+            border-bottom: 1px solid rgb(211, 74, 74);
+        }
+    </style>
 </head>
 
 <body>
@@ -95,6 +135,9 @@
     <div class='realname'>
         我是内容 realname
     </div>
+
+    <div class="borderPx">边框1px</div>
+    <div class="borderRx">直接设置1px</div>
 </body>
 
 </html>
