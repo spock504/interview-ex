@@ -3,7 +3,7 @@
  * @Date: 2021-02-23 11:50:45
  * @Description: file content
  * @LastEditors: liujian
- * @LastEditTime: 2021-03-12 15:07:27
+ * @LastEditTime: 2021-03-15 11:26:52
 -->
 目录:
 [toc]
@@ -126,6 +126,7 @@ window.dispatchEvent(event);
 ## 2. css部分
 
 #### 1. rem 实现自适应布局
+示例文件位置：`rem.html`
 rem单位只相对于浏览器的根元素（HTML元素）的font-size，只需要根据视图容器的大小，动态的改变font-size即可。
   一般的，各大主流浏览器的font-size默认值为16px,设置了62.5%以后就有 1rem=10px
   ```css
@@ -137,6 +138,26 @@ rem单位只相对于浏览器的根元素（HTML元素）的font-size，只需�
 #### 2. 移动端 1px
  `::after` + `transform`: 通过缩放边框实现1px
  设备像素比（DPR） = 设备像素（物理像素） / 设备独立像素（逻辑像素）
+
+## 3.性能优化
+1. 代码压缩
+    - 无效字符的删除
+    - 剔除注释
+2. 非核心代码异步加载
+    - script标签使用async和defer
+      - async是在加载完之后立即执行，并且多个执行顺序和加载顺序无关
+      - defer会在HTML解析完之后执行,并且多个defer会按照顺序执行
+    - 如果是react, 可以使用lazy页面路由异步加载
+3. [图片懒加载](####1.实现图片懒加载)
+4. 浏览器缓存
+
+
+
+参考链接：[页面性能优化办法有哪些？](https://zhuanlan.zhihu.com/p/67098966?utm_source=wechat_timeline)
+
+## 4.http
+
+ 
 
 
  
