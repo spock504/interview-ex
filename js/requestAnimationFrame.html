@@ -1,0 +1,49 @@
+<!--
+ * @Author: liujian
+ * @Date: 2021-03-11 11:32:10
+ * @Description: file content
+ * @LastEditors: liujian
+ * @LastEditTime: 2021-03-11 15:19:42
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>requestAnimationFrame</title>
+</head>
+
+<body>
+    <script>
+
+        function timeInterval(params) {
+            let timer = null
+            let lastTime = 0
+            function raf() {
+                const delayInterval = 1000 // 定时时间1s
+                timer = requestAnimationFrame((timestamp) => {
+                    const tickInterval = timestamp - lastTime // 时间差
+                    if (tickInterval >= delayInterval) {
+                        lastTime = timestamp
+                        console.log('定时执行 ', lastTime)
+                    }
+                    raf()
+                    if (timestamp > 3000) { // 在三秒后停止执行
+                        cancelAnimationFrame(timer);
+                    }
+                })
+            }
+            raf() // 运行函数
+        }
+
+        timeInterval()
+
+
+
+    </script>
+
+</body>
+
+</html>
