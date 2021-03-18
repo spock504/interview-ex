@@ -3,7 +3,7 @@
  * @Date: 2021-02-23 11:50:45
  * @Description: file content
  * @LastEditors: liujian
- * @LastEditTime: 2021-03-16 18:25:01
+ * @LastEditTime: 2021-03-18 15:07:10
 -->
 目录:
 - [1. js部分](#1-js部分)
@@ -25,9 +25,10 @@
 ## 1. js部分
 #### 1. 实现图片懒加载
 判断图片所在位置是否在可视区内，图片移到可视区内进行加载
- 1. offsetTop < clientHeight + scrollTop
- 2. IntersectionObserver
-       使用IntersectionObserver实现图片 懒加载, 示例文件位置：`lazyImgs.html`  
+ 1. offsetTop < clientHeight + scrollTop （元素距离上方的位置 < 元素可视区域高度 + 元素滚动的距离）
+ 2. IntersectionObserver  
+       使用IntersectionObserver实现图片 懒加载   
+       示例文件位置：`js/lazyImgs.html`  
         [谈谈IntersectionObserver懒加载](https://www.jianshu.com/p/84a86e41eb2b)
 #### 2. 跨域
 [前端常见跨域解决方案（全）](https://segmentfault.com/a/1190000011145364)  
@@ -73,7 +74,7 @@ server {
  4. postMessage
  postMessage(data,origin) 方法接受两个参数.
  
- 示例文件位置：`postMessage` 运行： 分别通过`npm run start`运行admin1 和admin2项目，
+ 示例文件位置：`postMessage`文件下 ，运行： 分别通过`npm run start`运行admin1 和admin2项目，
  > *admin1* 中：iframe.contentWindow.postMessage()发送数据，并且通过window.addEventListener('message', function (e) {}) 接收数据
  *admin2* 中：通过window.addEventListener('message', function (e) {}) 接收数据，然后通过window.parent.postMessage() 将数据返回给admin1中
  
@@ -105,15 +106,16 @@ Object.prototype.toString.call(1)    // "[object Number]"
 ```js
 addEventListener(type,listener,useCapture) , 其中useCapture默认false 冒泡
 ```
-示例文件位置：`addEventListener.html`  
+示例文件位置：`js/addEventListener.html`  
 优点:
 - 提高性能：只需添加一个事件代理所有事件，代码量少，所占用的内存空间更少。
 - 动态监听：自动绑定动态添加的元素
 
 #### 6. js 改变url，并且页面不刷新  
+示例文件位置：`js/url.html`  
 1. 使用 location.hash 属性来修改锚部分：`window.addEventListener("hashchange", myFunction);`
 2. 使用 history.pushState()方法：`history.pushState(state, title, url);`
-运行：`npm run starturl `，查看操作效果。 
+项目根目录运行：`npm run starturl `，查看操作效果。 
 参考链接：[张鑫旭 history pushState/replaceState实例](https://www.zhangxinxu.com/wordpress/2013/06/html5-history-api-pushstate-replacestate-ajax/)
 
 #### 7. js中自定义事件的使用与触发
@@ -129,7 +131,7 @@ window.addEventListener('build', function (e) {
 window.dispatchEvent(event);
 ```
 #### 8.实现简单的EventEmiter，包含事件绑定，事件触发以及移除
-示例文件位置：`eventEmiter.js`
+示例文件位置：`js/eventEmiter.js`
 
 #### 9. 使用 requestAnimationFrame
 `requestAnimationFrame`：基于帧数执行， 每秒60次
@@ -140,18 +142,36 @@ window.dispatchEvent(event);
 ## 2. css部分
 
 #### 1. rem 实现自适应布局
-示例文件位置：`rem.html`
+示例文件位置：`css/rem.html`
 rem单位只相对于浏览器的根元素（HTML元素）的font-size，只需要根据视图容器的大小，动态的改变font-size即可。
   一般的，各大主流浏览器的font-size默认值为16px,设置了62.5%以后就有 1rem=10px
   ```css
-  html,body{
+  html, body{
      font-size: 62.5%;  
   }
   ```
 
 #### 2. 移动端 1px
+示例文件位置：`css/rem.html`  
  `::after` + `transform`: 通过缩放边框实现1px
  设备像素比（DPR） = 设备像素（物理像素） / 设备独立像素（逻辑像素）
+ ```css
+.borderPx {
+    position: relative;
+}
+
+.borderPx::after {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 1px solid rgb(211, 74, 74);
+    content: "";
+    transform: scaleY(0.5);
+    transform-origin: left top;
+}
+ ```
 
 ## 3.性能优化
 1. 代码压缩
@@ -160,13 +180,25 @@ rem单位只相对于浏览器的根元素（HTML元素）的font-size，只需�
 2. 非核心代码异步加载
     - script标签使用async和defer
       - async是在加载完之后立即执行，并且多个执行顺序和加载顺序无关
-      - defer会在HTML解析完之后执行,并且多个defer会按照顺序执行
+      - defer会在HTML解析完之后执行，并且多个defer会按照顺序执行
     - 如果是react, 可以使用lazy页面路由异步加载
 3. [图片懒加载](#1-实现图片懒加载)
 4. 浏览器缓存
-
-
-
+   1. 强缓存：不会向服务器发送请求，直接从缓存中读取资源
+      1. Catch-Control：max-age=30 表示客户端将该缓存最多保存30s
+         **Catch-Control 设置时间长度**
+      2. Expires: Thu,21 Jan 2021 23:39:02 GMT
+         **设置过期时间点，响应头包含日期/时间（本地时间，不靠谱）**
+   2. 协商缓存：向服务器发送请求
+        协商缓存需要与cache-control共同使用
+      1. Last-Modified
+        发起请求时，若传递的时间值与服务器上该资源最终修改时间是一致的，则说明该资源没有被修改过，直接返回304状态码，内容为空.
+        > 但last-modified 存在一些缺点：
+        >
+        >   Ⅰ. 某些服务端不能获取精确的修改时间
+        >   Ⅱ. 文件修改时间改了，但文件内容却没有变
+      2. Etag
+        是对该资源的一种唯一标识，只要资源有变化，Etag就会重新生成。
 参考链接：[页面性能优化办法有哪些？](https://zhuanlan.zhihu.com/p/67098966?utm_source=wechat_timeline)
 
 ## 4.http
