@@ -3,7 +3,7 @@
  * @Date: 2021-02-23 11:50:45
  * @Description: file content
  * @LastEditors: liujian
- * @LastEditTime: 2021-03-18 15:07:10
+ * @LastEditTime: 2021-04-20 11:14:48
 -->
 目录:
 - [1. js部分](#1-js部分)
@@ -25,11 +25,14 @@
 ## 1. js部分
 #### 1. 实现图片懒加载
 判断图片所在位置是否在可视区内，图片移到可视区内进行加载
- 1. offsetTop < clientHeight + scrollTop （元素距离上方的位置 < 元素可视区域高度 + 元素滚动的距离）
+ 1. offsetTop （容器相对于document的top的绝对偏移）< clientHeight + scrollTop （元素距离上方的位置 < 元素可视区域高度 + 元素滚动的距离）
  2. IntersectionObserver  
        使用IntersectionObserver实现图片 懒加载   
        示例文件位置：`js/lazyImgs.html`  
         [谈谈IntersectionObserver懒加载](https://www.jianshu.com/p/84a86e41eb2b)
+3. getBoundingClientRect 用于获取某个元素相对于视窗的位置集合
+   示例文件位置： `js/lazyImgs.html`
+   也能够用来实现[吸顶效果](https://www.jianshu.com/p/824eb6f9dda4)
 #### 2. 跨域
 [前端常见跨域解决方案（全）](https://segmentfault.com/a/1190000011145364)  
 

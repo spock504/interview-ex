@@ -3,7 +3,7 @@
  * @Date: 2021-02-23 14:20:06
  * @Description: file content
  * @LastEditors: liujian
- * @LastEditTime: 2021-02-23 16:28:52
+ * @LastEditTime: 2021-04-20 11:22:01
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -1352,6 +1352,7 @@
     </div>
 </body>
 <script>
+    // 1. IntersectionObserver
     const io = new IntersectionObserver(callback); //实例化 默认基于当前视窗
     let imgs = document.querySelectorAll('[data-src]'); // // 将图片的真实url设置为data-src src属性为占位图 元素可见时候替换src
     function callback(entries) {
@@ -1366,6 +1367,32 @@
     imgs.forEach((item) => { // io.observe接受一个DOM元素，添加多个监听 使用forEach
         io.observe(item)
     })
+
+
+    // 2. object.getBoundingClientRect 用于获取某个元素相对于视窗的位置集合
+    // 获取所有的图片标签
+    const imgs = document.getElementsByTagName('img')
+    // 获取可视区域的高度
+    const viewHeight = window.innerHeight || document.documentElement.clientHeight
+    // num用于统计当前显示到了哪一张图片，避免每次都从第一张图片开始检查是否露出
+    let num = 0
+    function lazyload() {
+        for (let i = num; i < imgs.length; i++) {
+            // 用可视区域高度减去元素顶部距离可视区域顶部的高度
+            let distance = viewHeight - imgs[i].getBoundingClientRect().top
+            // 如果可视区域高度大于等于元素顶部距离可视区域顶部的高度，说明元素露出
+            if (distance >= 0) {
+                // 给元素写入真实的src，展示图片
+                imgs[i].src = imgs[i].getAttribute('data-src')
+                // 前i张图片已经加载完毕，下次从第i+1张开始检查是否露出
+                num = i + 1
+            }
+        }
+    }
+    // 初始化
+    window.addEventListener('load', lazyload)
+    // 监听Scroll事件
+    window.addEventListener('scroll', lazyload, false);
 </script>
 
 </html>
