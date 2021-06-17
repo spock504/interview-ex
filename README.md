@@ -3,7 +3,7 @@
  * @Date: 2021-02-23 11:50:45
  * @Description: file content
  * @LastEditors: liujian
- * @LastEditTime: 2021-04-20 11:14:48
+ * @LastEditTime: 2021-04-20 13:46:08
 -->
 目录:
 - [1. js部分](#1-js部分)
@@ -25,14 +25,18 @@
 ## 1. js部分
 #### 1. 实现图片懒加载
 判断图片所在位置是否在可视区内，图片移到可视区内进行加载
- 1. offsetTop （容器相对于document的top的绝对偏移）< clientHeight + scrollTop （元素距离上方的位置 < 元素可视区域高度 + 元素滚动的距离）
- 2. IntersectionObserver  
+1. IntersectionObserver  
        使用IntersectionObserver实现图片 懒加载   
        示例文件位置：`js/lazyImgs.html`  
         [谈谈IntersectionObserver懒加载](https://www.jianshu.com/p/84a86e41eb2b)
-3. getBoundingClientRect 用于获取某个元素相对于视窗的位置集合
-   示例文件位置： `js/lazyImgs.html`
+2. getBoundingClientRect 用于获取某个元素相对于视窗的位置集合
+   示例文件位置： `js/lazyImgs.html` （如果可视区域高度大于等于元素顶部距离可视区域顶部的高度，说明元素露出）
    也能够用来实现[吸顶效果](https://www.jianshu.com/p/824eb6f9dda4)
+3. 触底判断
+    `const isBottom = (clientHeight + scrollTop === scrollHeight)`
+    `clientHeight`：它是元素内部的高度，包含内边距，但不包括水平滚动条、边框和外边距。
+    `scrollTop`： 元素内容顶部到它的视口可见内容（的顶部）的距离。当一个元素的内容没有产生垂直方向的滚动条，那么它的 scrollTop 值为0。
+    `scrollHeight`：这个只读属性是一个元素内容高度的度量，包括由于溢出导致的视图中不可见内容。
 #### 2. 跨域
 [前端常见跨域解决方案（全）](https://segmentfault.com/a/1190000011145364)  
 

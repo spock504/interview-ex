@@ -3,7 +3,7 @@
  * @Date: 2021-02-23 14:20:06
  * @Description: file content
  * @LastEditors: liujian
- * @LastEditTime: 2021-04-20 11:22:01
+ * @LastEditTime: 2021-04-21 11:07:50
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -1371,19 +1371,20 @@
 
     // 2. object.getBoundingClientRect 用于获取某个元素相对于视窗的位置集合
     // 获取所有的图片标签
-    const imgs = document.getElementsByTagName('img')
+    const imgs2 = document.getElementsByTagName('img')
     // 获取可视区域的高度
     const viewHeight = window.innerHeight || document.documentElement.clientHeight
     // num用于统计当前显示到了哪一张图片，避免每次都从第一张图片开始检查是否露出
     let num = 0
     function lazyload() {
-        for (let i = num; i < imgs.length; i++) {
+        // console.log('num', num);
+        for (let i = num; i < imgs2.length; i++) {
             // 用可视区域高度减去元素顶部距离可视区域顶部的高度
-            let distance = viewHeight - imgs[i].getBoundingClientRect().top
+            let distance = viewHeight - imgs2[i].getBoundingClientRect().top
             // 如果可视区域高度大于等于元素顶部距离可视区域顶部的高度，说明元素露出
             if (distance >= 0) {
                 // 给元素写入真实的src，展示图片
-                imgs[i].src = imgs[i].getAttribute('data-src')
+                imgs2[i].src = imgs2[i].getAttribute('data-src')
                 // 前i张图片已经加载完毕，下次从第i+1张开始检查是否露出
                 num = i + 1
             }
@@ -1393,6 +1394,106 @@
     window.addEventListener('load', lazyload)
     // 监听Scroll事件
     window.addEventListener('scroll', lazyload, false);
+
+
+    /*
+        1. 节流阀: throttle (第一个人说了算) 
+        2. 防抖：debounce (最后一个人说了算)
+        3. 用 Throttle 来优化 Debounce
+    */
+
+    // 1. 节流阀: throttle
+    // fn是我们需要包装的事件回调, interval是时间间隔的阈值
+    function throttle(fn, interval) {
+        // last为上一次触发回调的时间
+        let last = 0
+
+        // 将throttle处理结果当作函数返回
+        return function () {
+            // 保留调用时的this上下文
+            let context = this
+            // 保留调用时传入的参数
+            let args = arguments
+            // 记录本次触发回调的时间
+            let now = +new Date()
+
+            // 判断上次触发的时间和本次触发的时间差是否小于时间间隔的阈值
+            if (now - last >= interval) {
+                // 如果时间间隔大于我们设定的时间间隔阈值，则执行回调
+                last = now;
+                fn.apply(context, args);
+            }
+        }
+    }
+
+    // 用throttle来包装scroll的回调
+    const better_scroll = throttle(() => console.log('触发了滚动事件'), 1000)
+
+    // document.addEventListener('scroll', better_scroll)
+
+    // 2. fn是我们需要包装的事件回调, delay是每次推迟执行的等待时间
+    function debounce(fn, delay) {
+        // 定时器
+        let timer = null
+
+        // 将debounce处理结果当作函数返回
+        return function () {
+            // 保留调用时的this上下文
+            let context = this
+            // 保留调用时传入的参数
+            let args = arguments
+
+            // 每次事件被触发时，都去清除之前的旧定时器
+            if (timer) {
+                clearTimeout(timer)
+            }
+            // 设立新定时器
+            timer = setTimeout(function () {
+                fn.apply(context, args)
+            }, delay)
+        }
+    }
+
+    // 用debounce来包装scroll的回调
+    const better_scroll2 = debounce(() => console.log('触发了滚动事件'), 1000)
+
+    // document.addEventListener('scroll', better_scroll2)
+    // 3. 用 Throttle 来优化 Debounce（delay 时间内，我可以为你重新生成定时器；但只要delay的时间到了，我必须要给用户一个响应）
+    // fn是我们需要包装的事件回调, delay是时间间隔的阈值
+    function throttleAble(fn, delay) {
+        // last为上一次触发回调的时间, timer是定时器
+        let last = 0, timer = null
+        // 将throttle处理结果当作函数返回
+
+        return function () {
+            // 保留调用时的this上下文
+            let context = this
+            // 保留调用时传入的参数
+            let args = arguments
+            // 记录本次触发回调的时间
+            let now = +new Date()
+
+            // 判断上次触发的时间和本次触发的时间差是否小于时间间隔的阈值
+            if (now - last < delay) {
+                // 如果时间间隔小于我们设定的时间间隔阈值，则为本次触发操作设立一个新的定时器
+                clearTimeout(timer)
+                timer = setTimeout(function () {
+                    last = now
+                    fn.apply(context, args)
+                }, delay)
+            } else {
+                // 如果时间间隔超出了我们设定的时间间隔阈值，那就不等了，无论如何要反馈给用户一次响应
+                last = now
+                fn.apply(context, args)
+            }
+        }
+    }
+
+    // 用新的throttleAble包装scroll的回调
+    const better_scroll3 = throttleAble(() => console.log('触发了滚动事件'), 1000)
+
+    document.addEventListener('scroll', better_scroll3)
+
 </script>
 
 </html>
